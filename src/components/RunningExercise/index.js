@@ -6,7 +6,8 @@ const RunningLaps = ({ goHome, exercise }) => {
     const [running, setRunning] = useState(false); //finds if the timer is running or not
     const [active, setActive] = useState("Start");
 
-    const [lap, setLap] = useState(0);
+    const [lap, setLap] = useState(1);
+    const [lapTime, setLapTime] = useState(0)
 
     
     const intervalRef = useRef(null);
@@ -32,7 +33,9 @@ const RunningLaps = ({ goHome, exercise }) => {
         )
     }
      
-
+    const timeDifference = () => {
+        
+    }
     function timeKeeper() {
         if (running) {
         setRunning(false);
@@ -46,11 +49,16 @@ const RunningLaps = ({ goHome, exercise }) => {
         setTime(0);
         setRunning(false)
         setActive("Start")
+        setLap(1);
     }
 
-    const countLap = () => {
-        //it has to record how much time each lap took, while maintaining the base time
-        setLap({time});
+    const countLap = () => { //it has to record how much time each lap took, while maintaining the base time
+        if (running) {
+            setLap(lap + 1);
+            setLapTime(running);
+        } 
+        
+        
 
     }
     
@@ -80,6 +88,7 @@ const RunningLaps = ({ goHome, exercise }) => {
                 <div className="stats-block">
                     <h3>{lap}</h3>
                     <h4>lap</h4>
+                    <p>{lapTime}</p>
                 </div>
                 <div className="stats-block">
                     <h3>120</h3>
