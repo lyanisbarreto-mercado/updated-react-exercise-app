@@ -2,6 +2,8 @@ import './App.css';
 import React, { useState } from "react";
 import Rep from "./components/RepetitionExercise"
 import StopwatchCounter from "./components/DurationExercise"
+import RunningLaps from "./components/RunningExercise"
+
 
 function App() {
   const [screen, setScreen] = useState("home")
@@ -55,7 +57,7 @@ function App() {
             name: "Running",
             image: "https://images.pexels.com/photos/8567597/pexels-photo-8567597.jpeg"
           });
-         setScreen("stopwatch")}}>
+         setScreen("running")}}>
           <h4>Running</h4>
           <img src="https://images.pexels.com/photos/8567597/pexels-photo-8567597.jpeg" alt="A woman running" />
         </div>
@@ -83,6 +85,8 @@ function App() {
       <StopwatchCounter goHome={() => setScreen("home")} exercise={selectedExercise}/>
       ) : screen === "reps" ? (
         <Rep goHome={() => setScreen("home")} exercise={selectedExercise}/>
+      ) : screen === "running" ? (
+        <RunningLaps goHome={() => setScreen("home")} exercise={selectedExercise}/>
       ) : null
     }
     </div>
