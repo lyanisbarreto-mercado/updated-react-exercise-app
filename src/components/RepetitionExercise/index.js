@@ -6,6 +6,7 @@ const Rep = ({ goHome, exercise }) => {
     const [counter, setCounter] = useState(0); //setting up the variable counter, and the state setCounter
 
     const [sets,setSets] = useState(1); //with each set, it always starts at one
+    const [maxSet, setMaxSet] = useState(3);
 
     function createSets() {
         if (counter > 4) { //for the prototype, there is a set number before the counter resets
@@ -22,7 +23,11 @@ const Rep = ({ goHome, exercise }) => {
         setCounter(counter => Math.max(counter - 1, 0)) //Math.max sets it so that if the counter is less than 0, it blocks it and resets it to 0
     }
     
-    
+    const adjustSet = (i) => {
+        const change = prompt("How many sets do you want to do?")
+        setMaxSet(change)
+
+    }
 
     return (
         <div>
@@ -35,8 +40,8 @@ const Rep = ({ goHome, exercise }) => {
             <div className="exercise-count">
                 <h2 className="counter">{counter}</h2>
                 <button onClick={clickUp}><i className="fa-solid fa-arrow-up"></i></button> <button onClick={clickDown}><i className="fa-solid fa-arrow-down"></i></button>
-                <button className="adjustments">Count the Reps</button>
-                <button className="adjustments">Adjust Sets</button>
+                
+                <button className="adjustments" onClick={adjustSet}>Adjust Sets</button>
                 
             </div>
             <div className="stats">
@@ -45,7 +50,7 @@ const Rep = ({ goHome, exercise }) => {
                     <h4>BPM</h4>
                 </div>
                 <div className="stats-block">
-                    <h3>{sets}/3</h3>
+                    <h3>{sets}/{maxSet}</h3>
                     <h4>sets</h4>
                 </div>
                 <div className="stats-block">
