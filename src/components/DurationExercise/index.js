@@ -5,6 +5,7 @@ const StopwatchCounter = ({ goHome, exercise }) => {
     const [time, setTime] = useState(0); //setting up the variable counter, and the state setCounter
     const [running, setRunning] = useState(false); //finds if the timer is running or not
     const [active, setActive] = useState("Start")
+    const [bestTime, setBestTime] = useState(0); //Keeps the highest time and only changes if the user beats the time
 
     
     const intervalRef = useRef(null);
@@ -19,11 +20,11 @@ const StopwatchCounter = ({ goHome, exercise }) => {
         }
     }, [running]);
 
-    const timeRunning = () => {
+    const timeRunning = (t) => {
 
-        let minutes = Math.floor((time % 36000) / 6000)
-        let seconds = Math.floor((time % 6000) / 100);
-        let milliseconds = time % 100;
+        let minutes = Math.floor((t % 36000) / 6000)
+        let seconds = Math.floor((t % 6000) / 100);
+        let milliseconds = t % 100;
 
         return (
             `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(milliseconds).padStart(2, "0")}`
@@ -36,9 +37,20 @@ const StopwatchCounter = ({ goHome, exercise }) => {
         if (running) {
         setRunning(false);
         setActive("Start"); 
+
+        //Best Time Function
+        setBestTime (prevBest => {
+            if (time > prevBest) {
+                return time;
+            } else {
+                return prevBest;
+            }
+        });
+       
     } else {
         setRunning(true);
         setActive("Stop")
+        
     }
     }
     const reset = () => {
@@ -46,6 +58,8 @@ const StopwatchCounter = ({ goHome, exercise }) => {
         setRunning(false)
         setActive("Start")
     }
+
+
 
     
     
@@ -59,7 +73,7 @@ const StopwatchCounter = ({ goHome, exercise }) => {
             <img src={exercise?.image} alt={exercise?.name}className="exerciseImage"/>
             <h2>{exercise?.name}</h2>
             <div className="exercise-count">
-                <h2 className="timer">{timeRunning()}</h2>
+                <h2 className="timer">{timeRunning(time)}</h2>
                 
                 <div className="time-state">
                 <button className="adjustments" onClick={timeKeeper}>{active}</button>
@@ -72,8 +86,8 @@ const StopwatchCounter = ({ goHome, exercise }) => {
                     <h4>BPM</h4>
                 </div>
                 <div className="stats-block">
-                    <h3>3</h3>
-                    <h4>miles</h4>
+                    <h3>{timeRunning(bestTime)}</h3>
+                    <h4>Best Time</h4>
                 </div>
                 <div className="stats-block">
                     <h3>120</h3>

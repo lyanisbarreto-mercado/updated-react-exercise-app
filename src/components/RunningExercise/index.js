@@ -8,7 +8,9 @@ const RunningLaps = ({ goHome, exercise }) => {
 
     const [lap, setLap] = useState(1);
     const [lapTime, setLapTime] = useState(0)
-    const [lastLapTime, setLastLapTIme] = useState(0);
+    const [lastLapTime, setLastLapTime] = useState(0);
+    const [lapList, setLapList] = useState([]);
+    const [currentLapTime, setCurrentLapTime] = useState(0)
 
     
     const intervalRef = useRef(null);
@@ -36,6 +38,7 @@ const RunningLaps = ({ goHome, exercise }) => {
     }
      
     
+
     function timeKeeper() {
         if (running) {
         setRunning(false);
@@ -51,15 +54,25 @@ const RunningLaps = ({ goHome, exercise }) => {
         setActive("Start")
         setLap(1);
         setLapTime(0);
+        setLapList([]);
+        setCurrentLapTime(0)
+        setLastLapTime(0);
     }
+    
 
     const countLap = () => { //it has to record how much time each lap took, while maintaining the base time
         if (running) {
-            const currentLapTime = time - lastLapTime;
-            setLapTime(currentLapTime);
-            setLastLapTIme(time);
+            const lapDuration = time - lastLapTime;
+            setCurrentLapTime(lapDuration);
+            setLapTime(lapDuration);
+            setLastLapTime(time);
             setLap(prev => prev + 1);
-        } 
+
+            setLapList (prev => [...prev, lapDuration]);
+        } else {
+            setLapTime(time);
+            setCurrentLapTime(0)
+        }
 
     }
     
@@ -82,6 +95,20 @@ const RunningLaps = ({ goHome, exercise }) => {
                 <button className="adjustmentst" onClick={reset}>Reset</button>
                 </div>
             </div>
+            <div >
+                <h3>Laps</h3>
+
+                {lapList.map((lapDuration, index) => {
+                return (
+                    <div className="lap-list" key={index}>
+                        <p>
+                            Lap {index + 1} — {timeRunning(lapDuration)}
+                        </p>
+                        <hr />
+                    </div>
+                );
+                })}
+            </div>
             <div className="stats">
                 <div className="stats-block">
                     <h3>100</h3>
@@ -90,7 +117,7 @@ const RunningLaps = ({ goHome, exercise }) => {
                 <div className="stats-block">
                     <h3>{lap}</h3>
                     <h4>lap</h4>
-                    <p>{timeRunning(lapTime)}</p>
+                    <p>{timeRunning(currentLapTime)}</p>
                 </div>
                 <div className="stats-block">
                     <h3>120</h3>
