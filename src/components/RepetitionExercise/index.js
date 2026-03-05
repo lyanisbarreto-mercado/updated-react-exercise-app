@@ -32,7 +32,7 @@ const Rep = ({ goHome, exercise }) => {
 
     const adjustRep = (i) => {
         const change = prompt("How many reps do you wish to do in each set?")
-        setMaxRep(change);
+        setMaxReps(change);
     }
 
     return (
