@@ -117,7 +117,7 @@ const RunningLaps = ({ goHome, exercise }) => {
                 <div className="stats-block">
                     <h3>{lap}</h3>
                     <h4>lap</h4>
-                    <p>{timeRunning(currentLapTime)}</p>
+                    <p>{timeRunning(lapTime)}</p>
                 </div>
                 <div className="stats-block">
                     <h3>120</h3>
