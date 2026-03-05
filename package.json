@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build -r https://github.com/lyanisbarreto-mercado/updated-react-exercise-app.git"
+    "deploy": "gh-pages -d build -r"
   },
   "eslintConfig": {
     "extends": [
