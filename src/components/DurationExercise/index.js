@@ -61,9 +61,10 @@ const StopwatchCounter = ({ goHome, exercise }) => {
             <div className="exercise-count">
                 <h2 className="timer">{timeRunning()}</h2>
                 
+                <div className="time-state">
                 <button className="adjustments" onClick={timeKeeper}>{active}</button>
-                <button className="adjustments" onClick={reset}>Reset</button>
-                
+                <button className="adjustmentst" onClick={reset}>Reset</button>
+                </div>
             </div>
             <div className="stats">
                 <div className="stats-block">

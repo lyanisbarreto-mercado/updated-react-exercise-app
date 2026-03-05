@@ -8,6 +8,7 @@ const RunningLaps = ({ goHome, exercise }) => {
 
     const [lap, setLap] = useState(1);
     const [lapTime, setLapTime] = useState(0)
+    const [lastLapTime, setLastLapTIme] = useState(0);
 
     
     const intervalRef = useRef(null);
@@ -22,20 +23,19 @@ const RunningLaps = ({ goHome, exercise }) => {
         }
     }, [running]);
 
-    const timeRunning = () => {
 
-        let minutes = Math.floor((time % 36000) / 6000)
-        let seconds = Math.floor((time % 6000) / 100);
-        let milliseconds = time % 100;
+    const timeRunning = (t) => {
+
+        let minutes = Math.floor((t % 36000) / 6000)
+        let seconds = Math.floor((t % 6000) / 100);
+        let milliseconds = t % 100;
 
         return (
             `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(milliseconds).padStart(2, "0")}`
         )
     }
      
-    const timeDifference = () => {
-        
-    }
+    
     function timeKeeper() {
         if (running) {
         setRunning(false);
@@ -50,15 +50,16 @@ const RunningLaps = ({ goHome, exercise }) => {
         setRunning(false)
         setActive("Start")
         setLap(1);
+        setLapTime(0);
     }
 
     const countLap = () => { //it has to record how much time each lap took, while maintaining the base time
         if (running) {
-            setLap(lap + 1);
-            setLapTime(running);
+            const currentLapTime = time - lastLapTime;
+            setLapTime(currentLapTime);
+            setLastLapTIme(time);
+            setLap(prev => prev + 1);
         } 
-        
-        
 
     }
     
@@ -73,12 +74,13 @@ const RunningLaps = ({ goHome, exercise }) => {
             <img src={exercise?.image} alt={exercise?.name}className="exerciseImage"/>
             <h2>{exercise?.name}</h2>
             <div className="exercise-count">
-                <h2 className="timer">{timeRunning()}</h2>
+                <h2 className="timer">{timeRunning(time)}</h2>
                 
                 <button className="adjustments" onClick={countLap}>Record Lap</button>
+                <div className="time-state">
                 <button className="adjustments" onClick={timeKeeper}>{active}</button>
-                <button className="adjustments" onClick={reset}>Reset</button>
-                
+                <button className="adjustmentst" onClick={reset}>Reset</button>
+                </div>
             </div>
             <div className="stats">
                 <div className="stats-block">
@@ -88,7 +90,7 @@ const RunningLaps = ({ goHome, exercise }) => {
                 <div className="stats-block">
                     <h3>{lap}</h3>
                     <h4>lap</h4>
-                    <p>{lapTime}</p>
+                    <p>{timeRunning(lapTime)}</p>
                 </div>
                 <div className="stats-block">
                     <h3>120</h3>
