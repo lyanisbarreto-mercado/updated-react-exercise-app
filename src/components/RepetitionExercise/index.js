@@ -7,9 +7,10 @@ const Rep = ({ goHome, exercise }) => {
 
     const [sets,setSets] = useState(1); //with each set, it always starts at one
     const [maxSet, setMaxSet] = useState(3);
+    const [maxRep, setMaxReps] = useState(4) //The default number of reps per set. It is one number lower than the actual amount (the app will let you go up to 5 in this case)
 
     function createSets() {
-        if (counter > 4) { //for the prototype, there is a set number before the counter resets
+        if (counter > maxRep) { //for the prototype, there is a set number before the counter resets
         setSets(sets + 1);
         setCounter(1);
         }
@@ -29,6 +30,11 @@ const Rep = ({ goHome, exercise }) => {
 
     }
 
+    const adjustRep = (i) => {
+        const change = prompt("How many reps do you wish to do in each set?")
+        setMaxRep(change);
+    }
+
     return (
         <div>
             <div className="top-nav">
@@ -40,7 +46,7 @@ const Rep = ({ goHome, exercise }) => {
             <div className="exercise-count">
                 <h2 className="counter">{counter}</h2>
                 <button onClick={clickUp}><i className="fa-solid fa-arrow-up"></i></button> <button onClick={clickDown}><i className="fa-solid fa-arrow-down"></i></button>
-                
+                <button className="adjustments" onClick={adjustRep}>Adjust Reps</button>
                 <button className="adjustments" onClick={adjustSet}>Adjust Sets</button>
                 
             </div>
